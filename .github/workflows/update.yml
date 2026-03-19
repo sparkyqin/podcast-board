@@ -1,0 +1,35 @@
+name: Daily Podcast Data Update
+
+on:
+  schedule:
+    # UTC 16:00 = 北京时间凌晨 00:00
+    - cron: '0 16 * * *'
+  workflow_dispatch: # 允许手动在 GitHub 页面点击运行
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm install podcast-api dotenv
+
+      - name: Run Fetch Script
+        env:
+          LISTEN_API_KEY: ${{ secrets.LISTEN_API_KEY }}
+        run: node scripts/fetch-podcasts.js
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'GitHub Action Bot'
+          git config --global user.email 'action@github.com'
+          git add public/data/
+          # 如果有数据更新才 commit
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: 每日榜单数据更新" && git push)
