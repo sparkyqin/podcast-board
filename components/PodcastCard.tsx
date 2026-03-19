@@ -10,11 +10,14 @@ export interface PodcastData {
   publisher: string;
   image: string;
   description: string;
-  listen_score: number | string; // 允许 string
+  listen_score: number | string; 
+  total_episodes: number; // 👈 核心修复：添加这一行，告诉 TS 这个属性是存在的
   listennotes_url: string;
   trend: 'up' | 'down' | 'same' | 'new';
   trend_offset?: number;
 }
+
+// ... 下面的组件代码保持不变 ...
 
 export default function PodcastCard({ podcast }: { podcast: PodcastData }) {
   // 排名颜色逻辑

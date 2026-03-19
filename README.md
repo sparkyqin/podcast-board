@@ -9,8 +9,8 @@
 * **📈 每日自动刷新榜单**：基于全球收听数据（Listen Score），每天自动更新总榜及商业、科技、喜剧、文化等多个子分类榜单。
 * **🔍 沉浸式站内搜索**：支持全网中文播客及主播名称检索，精准过滤英文干扰内容。
 * **🎧 闭环收听体验**：独立的播客详情页，包含最新 10 期节目列表、原生 HTML5 音频播放器（支持进度拖拽与后台播放）及 RSS 订阅直达。
-* **💡 智能相似推荐**：在详情页提供“听这个的人也在听”的关联推荐，打破信息茧房。
-* **🎲 “随便听听”盲盒**：专治选择困难症，一键随机跳转优质中文播客。
+* **💡 智能相似推荐**：在详情页提供"听这个的人也在听"的关联推荐，打破信息茧房。
+* **🎲 "随便听听"盲盒**：专治选择困难症，一键随机跳转优质中文播客。
 * **🎨 现代极简 UI**：参考顶级流媒体 App 设计，采用 Apple 风格的毛玻璃导航、杂志级大字排版及丝滑的微交互动画。
 
 ## 🛠️ 技术栈与架构
@@ -36,17 +36,17 @@
 
 ### 1. 克隆项目
 ```bash
-git clone [https://github.com/你的用户名/你的仓库名.git](https://github.com/你的用户名/你的仓库名.git)
-cd 你的仓库名
-````
+git clone https://github.com/sparkyqin/podcast-board.git
+cd podcast-board
+```
 
-### 2\. 安装依赖
+### 2. 安装依赖
 
 ```bash
 npm install
 ```
 
-### 3\. 配置环境变量
+### 3. 配置环境变量
 
 在项目根目录创建一个 `.env` 文件，并填入你的 Listen Notes API Key（免费获取：[Listen Notes Dashboard](https://www.listennotes.com/api/pricing/)）：
 
@@ -54,7 +54,7 @@ npm install
 LISTEN_API_KEY=你的真实API_KEY
 ```
 
-### 4\. 获取初始数据
+### 4. 获取初始数据
 
 由于应用依赖本地 JSON 渲染首页，首次运行前需要执行抓取脚本生成数据文件：
 
@@ -64,13 +64,13 @@ node scripts/fetch-podcasts.js
 
 *(成功后，你会在 `public/data/` 目录下看到生成的 `today.json`)*
 
-### 5\. 启动开发服务器
+### 5. 启动开发服务器
 
 ```bash
 npm run dev
 ```
 
-打开浏览器访问 [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) 即可预览项目！
+打开浏览器访问 [http://localhost:3000](http://localhost:3000) 即可预览项目！
 
 -----
 
@@ -79,7 +79,7 @@ npm run dev
 如果你 Fork 了此项目并希望部署属于自己的自动更新榜单：
 
 1.  **配置 GitHub Secrets**：
-    进入你的 GitHub 仓库 -\> `Settings` -\> `Secrets and variables` -\> `Actions`，添加一个名为 `LISTEN_API_KEY` 的 Repository secret，值为你的 API Key。
+    进入你的 GitHub 仓库 -> `Settings` -> `Secrets and variables` -> `Actions`，添加一个名为 `LISTEN_API_KEY` 的 Repository secret，值为你的 API Key。
 2.  **部署到 Vercel**：
       * 登录 [Vercel](https://vercel.com/)，导入该 GitHub 仓库。
       * 在部署前的 **Environment Variables** 选项中，同样添加 `LISTEN_API_KEY` 变量。
