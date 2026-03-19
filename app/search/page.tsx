@@ -10,7 +10,7 @@ async function searchPodcasts(query: string) {
   try {
     const response = await client.search({
       q: query,
-      type: 'podcast', // 只搜索播客节目
+      type: 'episode', // 只搜索播客节目
       language: 'Chinese', // 核心：过滤掉英文播客
       safe_mode: 0,
     });
