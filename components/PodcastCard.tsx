@@ -56,49 +56,60 @@ export default function PodcastCard({ podcast }: { podcast: PodcastData }) {
   const isScoreNumeric = typeof podcast.listen_score === 'number' || (typeof podcast.listen_score === 'string' && !isNaN(Number(podcast.listen_score)));
 
   return (
-    <div className="flex items-center p-5 md:p-7 bg-white rounded-3xl shadow-pod-card hover:shadow-lg transition-all duration-300 border border-stone-50 group cursor-pointer gap-5 md:gap-7">
+    <div className="flex items-center p-4 md:p-7 bg-white rounded-3xl shadow-pod-card hover:shadow-lg transition-all duration-300 border border-slate-200/50 group cursor-pointer gap-3 md:gap-7">
       
-      {/* 排名与趋势 (更精致的布局) */}
-      <div className="flex flex-col items-center justify-center w-14 md:w-20 flex-shrink-0 gap-1.5">
+      {/* 1. 排名区：手机端稍微缩小 */}
+      <div className="flex flex-col items-center justify-center w-10 md:w-20 flex-shrink-0 gap-1">
         {renderTrend()}
-        <div className={`text-5xl md:text-7xl font-black italic leading-none drop-shadow-sm ${getRankColor(podcast.rank)}`}>
+        <div className={`text-3xl md:text-7xl font-black italic leading-none drop-shadow-sm ${getRankColor(podcast.rank)}`}>
           {podcast.rank}
         </div>
       </div>
 
-      {/* 封面图加大，视觉焦点 */}
+      {/* 2. 封面图：手机端 64px, 电脑端 144px */}
       <div className="relative flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
-        <img src={podcast.image} alt={podcast.title} className="w-24 h-24 md:w-36 md:h-36 rounded-2xl md:rounded-3xl object-cover shadow-sm border border-stone-100" />
+        <img src={podcast.image} alt={podcast.title} className="w-16 h-16 md:w-36 md:h-36 rounded-xl md:rounded-3xl object-cover shadow-sm border border-slate-100" />
       </div>
 
-      {/* 文字内容区 (排版优化) */}
+      {/* 3. 文字内容区 */}
       <div className="flex-1 min-w-0 py-1">
-        <h3 className="text-xl md:text-2xl font-bold text-pod-text-main truncate group-hover:text-pod-accent transition-colors">{podcast.title}</h3>
-        <p className="text-xs md:text-sm text-stone-500 font-medium mt-1 md:mt-2">{podcast.publisher}</p>
+        <h3 className="text-base md:text-2xl font-bold text-slate-900 truncate group-hover:text-indigo-600 transition-colors">{podcast.title}</h3>
+        <p className="text-[10px] md:text-sm text-slate-500 font-medium mt-0.5 md:mt-2">{podcast.publisher}</p>
         
-        {/* ⭐ HTML Description 核心修复区 */}
+        {/* 手机端隐藏简介，保证不拥挤 */}
         <div 
-          className="text-sm text-stone-500 mt-4 line-clamp-2 hidden md:-webkit-box leading-relaxed" 
-          dangerouslySetInnerHTML={{ __html: podcast.description }} // 安全地渲染 HTML
+          className="text-sm text-slate-500 mt-4 line-clamp-2 hidden md:-webkit-box leading-relaxed" 
+          dangerouslySetInnerHTML={{ __html: podcast.description }}
           style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
         />
+
+        {/* ⭐️ 新增：手机端专用的简易集数显示 (仅在手机端显示) */}
+        <div className="md:hidden mt-2">
+           <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">
+             更新 {podcast.total_episodes} 集
+           </span>
+        </div>
       </div>
 
-      {/* 数据与操作区：用总集数替代 N/A 的分数 */}
-      <div className="hidden md:flex w-36 flex-col items-end flex-shrink-0 border-l border-stone-100 pl-7 py-2 gap-4">
+      {/* 4. 右侧数据与操作区：去掉 hidden，改为在手机端也显示，但调整样式 */}
+      <div className="flex w-20 md:w-40 flex-col items-end flex-shrink-0 md:border-l md:border-slate-100 md:pl-7 py-1 gap-2 md:gap-4">
         
-        <div className="flex items-center gap-1.5 bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-full border border-indigo-100">
+        {/* 电脑端显示的精致标签 */}
+        <div className="hidden md:flex items-center gap-1.5 bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-full border border-indigo-100">
           <span className="text-indigo-400 text-sm">🎙️</span>
           <span className="text-xs font-bold whitespace-nowrap">已更新</span>
           <span className="text-base font-bold text-indigo-800">{podcast.total_episodes}</span>
           <span className="text-xs font-bold whitespace-nowrap">集</span>
         </div>
         
+        {/* 查看详情按钮：手机端变小，电脑端恢复正常 */}
         <Link 
           href={`/podcast/${podcast.id}`} 
-          className="text-center w-full mt-auto block text-sm font-bold text-indigo-600 bg-indigo-50 hover:bg-pod-accent hover:text-white px-5 py-2.5 rounded-xl transition-all border border-indigo-100/50"
+          className="text-center w-full block text-[10px] md:text-sm font-bold text-indigo-600 bg-indigo-50 md:bg-indigo-50 hover:bg-indigo-600 hover:text-white px-2 py-1.5 md:px-5 md:py-2.5 rounded-lg md:rounded-xl transition-all border border-indigo-100/50"
         >
-          查看详情
+          {/* 手机端显示简写，电脑端显示全称 */}
+          <span className="md:hidden">详情</span>
+          <span className="hidden md:inline">查看详情</span>
         </Link>
       </div>
     </div>
